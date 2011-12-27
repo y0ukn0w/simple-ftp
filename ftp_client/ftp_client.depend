@@ -1,0 +1,238 @@
+# depslib dependency file v1.0
+1324823190 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/client/cmd_analysize.c
+	"client.h"
+
+1324823231 /home/silver/Documents/courses/linux_lab/Project/src/FTP/client/client.h
+	"ftp.h"
+	<stdio.h>
+	<stdlib.h>
+	<errno.h>
+	<string.h>
+	<sys/types.h>
+	<netinet/in.h>
+	<sys/socket.h>
+	<sys/wait.h>
+	<pthread.h>
+	<unistd.h>
+	<fcntl.h>
+
+1324823043 /home/silver/Documents/courses/linux_lab/Project/src/FTP/client/ftp.h
+
+1324738222 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/server/check_login.c
+
+1324822404 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/server/do_cd.c
+	"server.h"
+
+1324823751 /home/silver/Documents/courses/linux_lab/Project/src/FTP/server/server.h
+	<sys/stat.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<errno.h>
+	<pwd.h>
+	<grp.h>
+	<dirent.h>
+	<unistd.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<pthread.h>
+	"ftp.h"
+
+1324823422 /home/silver/Documents/courses/linux_lab/Project/src/FTP/server/ftp.h
+
+1324823295 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/server/do_get.c
+	"server.h"
+
+1324823302 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/server/do_ls.c
+	"server.h"
+
+1324816752 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/server/do_mget.c
+
+1324823327 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/server/do_mkdir.c
+	"server.h"
+
+1324816753 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/server/do_mput.c
+
+1324823350 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/server/do_put.c
+	"server.h"
+
+1324823327 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/server/do_pwd.c
+	"server.h"
+
+1324815978 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/server/do_quit.c
+	"server.h"
+
+1324823350 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/server/do_rm.c
+	"server.h"
+
+1324823350 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/server/do_rmdir.c
+	"server.h"
+
+1324823533 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/server/exec_cmd.c
+	"server.h"
+
+1324823731 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/server/ftpserver.c
+	"server.h"
+
+1324821564 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/server/preprocess_path.c
+	"server.h"
+
+1324879575 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_client/cmd_analysize.c
+	"client.h"
+
+1324886987 /home/silver/Documents/courses/linux_lab/Project/src/ftp_client/client.h
+	"ftp.h"
+	<stdio.h>
+	<stdlib.h>
+	<errno.h>
+	<string.h>
+	<sys/types.h>
+	<netinet/in.h>
+	<arpa/inet.h>
+	<sys/socket.h>
+	<unistd.h>
+
+1324883844 /home/silver/Documents/courses/linux_lab/Project/src/ftp_client/ftp.h
+
+1324907514 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_client/myftp.c
+	"client.h"
+
+1324738222 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_server/check_login.c
+
+1324822404 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_server/do_cd.c
+	"server.h"
+
+1324823751 /home/silver/Documents/courses/linux_lab/Project/src/ftp_server/server.h
+	<sys/stat.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<errno.h>
+	<pwd.h>
+	<grp.h>
+	<dirent.h>
+	<unistd.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<pthread.h>
+	"ftp.h"
+
+1324823422 /home/silver/Documents/courses/linux_lab/Project/src/ftp_server/ftp.h
+
+1324823295 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_server/do_get.c
+	"server.h"
+
+1324823302 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_server/do_ls.c
+	"server.h"
+
+1324816752 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_server/do_mget.c
+
+1324823327 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_server/do_mkdir.c
+	"server.h"
+
+1324816753 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_server/do_mput.c
+
+1324823350 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_server/do_put.c
+	"server.h"
+
+1324823327 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_server/do_pwd.c
+	"server.h"
+
+1324815978 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_server/do_quit.c
+	"server.h"
+
+1324823350 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_server/do_rm.c
+	"server.h"
+
+1324823350 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_server/do_rmdir.c
+	"server.h"
+
+1324823533 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_server/exec_cmd.c
+	"server.h"
+
+1324823731 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_server/ftpserver.c
+	"server.h"
+
+1324821564 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_server/preprocess_path.c
+	"server.h"
+
+1324824111 source:/home/silver/Documents/courses/linux_lab/Project/src/FTP/client/myftp.c
+	"client.h"
+
+1324900120 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_client/pasv_cmd.c
+	"client.h"
+
+1324886373 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_client/ftp_connect_socket.c
+	"client.h"
+
+1324907122 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_client/recv_file.c
+	"server.h"
+
+1324907572 /home/silver/Documents/courses/linux_lab/Project/src/ftp_client/server.h
+	<sys/stat.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<errno.h>
+	<pwd.h>
+	<grp.h>
+	<dirent.h>
+	<unistd.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<pthread.h>
+	"ftp.h"
+
+1324907115 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_client/trans_file.c
+	"server.h"
+
+1324907115 source:/home/silver/Documents/courses/linux_lab/Project/src/ftp_client/send_file.c
+	"server.h"
+
+1324879575 source:/home/silver/Documents/courses/linux_lab/Project/ftp_client/cmd_analysize.c
+	"client.h"
+
+1324886987 /home/silver/Documents/courses/linux_lab/Project/ftp_client/client.h
+	"ftp.h"
+	<stdio.h>
+	<stdlib.h>
+	<errno.h>
+	<string.h>
+	<sys/types.h>
+	<netinet/in.h>
+	<arpa/inet.h>
+	<sys/socket.h>
+	<unistd.h>
+
+1324908625 /home/silver/Documents/courses/linux_lab/Project/ftp_client/ftp.h
+
+1324886373 source:/home/silver/Documents/courses/linux_lab/Project/ftp_client/ftp_connect_socket.c
+	"client.h"
+
+1324907514 source:/home/silver/Documents/courses/linux_lab/Project/ftp_client/myftp.c
+	"client.h"
+
+1324900120 source:/home/silver/Documents/courses/linux_lab/Project/ftp_client/pasv_cmd.c
+	"client.h"
+
+1324907122 source:/home/silver/Documents/courses/linux_lab/Project/ftp_client/recv_file.c
+	"server.h"
+
+1324908852 /home/silver/Documents/courses/linux_lab/Project/ftp_client/server.h
+	<sys/stat.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<errno.h>
+	<pwd.h>
+	<grp.h>
+	<dirent.h>
+	<unistd.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<pthread.h>
+	"ftp.h"
+
+1324907115 source:/home/silver/Documents/courses/linux_lab/Project/ftp_client/send_file.c
+	"server.h"
+
