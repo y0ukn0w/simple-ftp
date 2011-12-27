@@ -71,7 +71,7 @@
 1324879442 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/check_login.c
 	"server.h"
 
-1324908852 /home/silver/Documents/courses/linux_lab/Project/ftp_server/server.h
+1325001172 /home/silver/Documents/courses/linux_lab/Project/ftp_server/server.h
 	<sys/stat.h>
 	<sys/socket.h>
 	<netinet/in.h>
@@ -86,12 +86,12 @@
 	<pthread.h>
 	"ftp.h"
 
-1324908625 /home/silver/Documents/courses/linux_lab/Project/ftp_server/ftp.h
+1325001172 /home/silver/Documents/courses/linux_lab/Project/ftp_server/ftp.h
 
 1324840202 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/do_cd.c
 	"server.h"
 
-1324906864 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/do_get.c
+1324995925 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/do_get.c
 	"server.h"
 
 1324823302 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/do_ls.c
@@ -104,13 +104,13 @@
 
 1324816753 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/do_mput.c
 
-1324907205 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/do_put.c
+1324996772 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/do_put.c
 	"server.h"
 
 1324823327 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/do_pwd.c
 	"server.h"
 
-1324888766 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/do_quit.c
+1324995925 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/do_quit.c
 	"server.h"
 
 1324823350 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/do_rm.c
@@ -122,18 +122,24 @@
 1324905241 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/exec_cmd.c
 	"server.h"
 
-1324906864 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/ftpserver.c
+1324997635 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/ftpserver.c
 	"server.h"
 
 1324899265 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/pasv_cmd.c
 	"server.h"
 
-1324902411 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/preprocess_path.c
+1324992555 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/preprocess_path.c
 	"server.h"
 
-1324907122 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/recv_file.c
+1324999671 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/recv_file.c
 	"server.h"
 
-1324907115 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/send_file.c
+1324999671 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/send_file.c
+	"server.h"
+
+1324994745 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/check_file.c
+	"server.h"
+
+1324990261 source:/home/silver/Documents/courses/linux_lab/Project/ftp_server/do_login.c
 	"server.h"
 

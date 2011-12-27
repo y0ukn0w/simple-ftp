@@ -59,7 +59,7 @@ void preprocess_path(const char* path, char current_dir[], char processed_path[]
 			virtual_path[t-1] = '\0';
 	}
 
-    printf("after processing, virtual_path is %s\n", virtual_path);
+//    printf("after processing, virtual_path is %s\n", virtual_path);
 
     sprintf(processed_path, "%s%s", FTP_ROOT_DIR, virtual_path);
     printf("processed_path is %s\n", processed_path);

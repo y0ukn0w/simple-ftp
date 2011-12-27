@@ -29,8 +29,8 @@ int main(int argc,char* argv[])
     }
 
     int data_port = port + 1;
-    int file_sockfd = ftp_create_socket(data_port);
-    if (file_sockfd < 0)
+    int data_sockfd = ftp_create_socket(data_port);
+    if (data_sockfd < 0)
     {
         printf("create socket of port error\n");
         exit(EXIT_FAILURE);
@@ -45,7 +45,7 @@ int main(int argc,char* argv[])
             break;
         }
         printf("client socketfd is %d\n", client_sockfd);
-        struct client_thread_argv c_argv = {client_sockfd, data_port, file_sockfd};
+        struct client_thread_argv c_argv = {client_sockfd, data_port, data_sockfd};
         pthread_t tid;
         pthread_create(&tid, NULL, (void*)client_thread, (void*)&c_argv);
     }
@@ -70,7 +70,7 @@ int ftp_create_socket(int port)
     localaddr.sin_addr.s_addr = htonl(INADDR_ANY);
     localaddr.sin_port = htons(port);
 
-    if (bind(fd, (struct sockaddr *)&localaddr, sizeof(localaddr)) < 0)
+    if (bind(fd, (struct sockaddr*)&localaddr, sizeof(localaddr)) < 0)
     {
         perror("bind socket");
         return -1;
@@ -89,10 +89,10 @@ void* client_thread(void* argv)
 {
     struct client_thread_argv* cli_argv = (struct client_thread_argv*)argv;
 	int client_sockfd = cli_argv->client_sockfd;
-    int file_sockfd = cli_argv->file_sockfd;
+    int data_sockfd = cli_argv->data_sockfd;
     int data_port = cli_argv->data_port;
 
-    printf("file_sockfd is %d\ndata_port is %d\n", file_sockfd, data_port);
+    printf("file_sockfd is %d\ndata_port is %d\n", data_sockfd, data_port);
 
 	char recv_buf[BUF_SIZE], send_buf[BUF_SIZE];
 	char file_buf[FILE_BUF_SIZE];
@@ -101,99 +101,54 @@ void* client_thread(void* argv)
     char processed_path[TMP_BUF_SIZE];
 
     struct cmd_type_header* cmd_hdr;
-    struct cmd_result_header* result_hdr;
+//    struct cmd_result_header* result_hdr;
 
     cmd_hdr = (struct cmd_type_header*)recv_buf;
-    result_hdr = (struct cmd_result_header*)send_buf;
+//    result_hdr = (struct cmd_result_header*)send_buf;
 
-    int client_file_sockfd = -1;
+    int file_sockfd = -1;
+    int ret;
 	while (1)
 	{
-        memset(recv_buf, 0, sizeof(recv_buf));
-		if(recv(client_sockfd, recv_buf, sizeof(recv_buf), 0) < 0)
+        memset(recv_buf, 0, BUF_SIZE);
+		if(recv(client_sockfd, recv_buf, BUF_SIZE, 0) < 0)
 		{
 			perror("recv");
             break;
 		}
 
-		memset(send_buf, 0, sizeof(send_buf));
+		memset(send_buf, 0, BUF_SIZE);
+        memset(processed_path, 0, sizeof(processed_path));
 
         if (cmd_hdr->cmd_type == LOGIN)
         {
-            printf("someone login\n");
-
-            char *username, *password;
-            username = cmd_hdr->cmd_argv;
-            password = cmd_hdr->cmd_argv + strlen(cmd_hdr->cmd_argv) + 1;
-
-            if (check_login(username, password) == 1)
-            {
-                result_hdr->ret_status = SUCCESS;
-                strcpy(result_hdr->ret_result, "Login OK\n");
-                send(client_sockfd, send_buf, sizeof(send_buf), 0);
-
-                memset(recv_buf, 0, sizeof(recv_buf));
-                if(recv(client_sockfd, recv_buf, sizeof(recv_buf), 0) < 0)
-                {
-                    perror("recv");
-                    break;
-                }
-                if (cmd_hdr->cmd_type == PASV)
-                {
-                    printf("in server main(), PASV cmd\n");
-                    memset(send_buf, 0, sizeof(send_buf));
-
-                    result_hdr->ret_status = SUCCESS;
-                    memcpy(result_hdr->ret_result, (char*)&data_port, sizeof(int));
-                    printf("\nsend file sockfd\n");
-                    send(client_sockfd, send_buf, BUF_SIZE, 0);
-
-                    client_file_sockfd = accept(file_sockfd, NULL, NULL);
-                    if (client_file_sockfd < 0)
-                    {
-                        perror("accept");
-                        break;
-                    }
-
-                }
-            }
-            else
-            {
-                result_hdr->ret_status = FAIL;
-                strcpy(result_hdr->ret_result, "Login failed\n");
-                send(client_sockfd, send_buf, sizeof(send_buf), 0);
+            ret = do_login(recv_buf, send_buf, client_sockfd);
+            if (ret < 0)
                 break;
-            }
-
+        }
+        else if (cmd_hdr->cmd_type == PASV)
+        {
+            ret = do_pasv(send_buf, client_sockfd, data_port, data_sockfd, &file_sockfd);
+            if (ret < 0)
+                break;
         }
         else if (cmd_hdr->cmd_type == QUIT)
         {
-            do_quit(client_file_sockfd);
-            strcpy(result_hdr->ret_result, "Quit OK, goodbye!\n");
-            send(client_sockfd, send_buf, sizeof(send_buf), 0);
+            do_quit(send_buf, client_sockfd, file_sockfd);
             break;
         }
         else if (cmd_hdr->cmd_type == GET)
         {
-            do_get(cmd_hdr->cmd_argv, send_buf, current_dir, processed_path);
-            send(client_sockfd, send_buf, sizeof(send_buf), 0);
-
-            if (result_hdr->ret_status == SUCCESS)
-                send_file(processed_path, client_file_sockfd, file_buf);
+            do_get(recv_buf, send_buf, file_buf, current_dir, processed_path, client_sockfd, file_sockfd);
         }
         else if (cmd_hdr->cmd_type == PUT)
         {
-            do_put(cmd_hdr->cmd_argv, send_buf, current_dir, processed_path);
-            send(client_sockfd, send_buf, sizeof(send_buf), 0);
-
-            if (result_hdr->ret_status == SUCCESS)
-                recv_file(processed_path, client_file_sockfd, file_buf);
+            do_put(recv_buf, send_buf, file_buf, current_dir, processed_path, client_sockfd, file_sockfd);
         }
         else
 		{
-		    memset(processed_path, 0, sizeof(processed_path));
-		    exec_cmd(recv_buf, send_buf, file_buf, client_file_sockfd, current_dir, processed_path);
-            send(client_sockfd, send_buf, sizeof(send_buf), 0);
+		    exec_cmd(recv_buf, send_buf, file_buf, file_sockfd, current_dir, processed_path);
+            send(client_sockfd, send_buf, BUF_SIZE, 0);
 		}
 	}
 

@@ -32,20 +32,31 @@ void do_mkdir(const char* path, char buf[], char current_dir[], char processed_p
 void do_pwd(char current_dir[], char buf[]);
 void do_rm(const char* path, char buf[], char current_dir[], char processed_path[]);
 void do_rmdir(const char* path, char buf[], char current_dir[], char processed_path[]);
-int check_login(char* username, char* password);
-void do_quit(int file_sockfd);
-
-void do_get(const char* filename, char send_buf[], char current_dir[], char processed_path[]);
-void do_put(const char* filename, char send_buf[], char current_dir[], char processed_path[]);
 
 int ftp_create_socket(int port);
 void* client_thread(void* sockfd);
+
+int is_dir(const char* filename);
+
+int check_get(const char* filename, char send_buf[], char current_dir[], char processed_path[]);
+void do_get(char recv_buf[], char send_buf[], char file_buf[],
+            char current_dir[], char processed_path[],
+            int client_sockfd, int file_sockfd);
+void do_put(char recv_buf[], char send_buf[], char file_buf[],
+            char current_dir[], char processed_path[],
+            int client_sockfd, int file_sockfd);
+
+int check_login(char* username, char* password);
+int do_login(char recv_buf[], char send_buf[], int client_sockfd);
+int do_pasv(char send_buf[], int client_sockfd, int data_port, int data_sockfd, int* file_sockfd);
+void do_quit(char send_buf[], int client_sockfd, int file_sockfd);
+
 
  struct client_thread_argv
 {
     int client_sockfd;
     int data_port;
-    int file_sockfd;
+    int data_sockfd;
 };
 
 #endif // SERVER_CMD_H_INCLUDED

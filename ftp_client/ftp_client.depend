@@ -204,21 +204,21 @@
 	<sys/socket.h>
 	<unistd.h>
 
-1324908625 /home/silver/Documents/courses/linux_lab/Project/ftp_client/ftp.h
+1325001172 /home/silver/Documents/courses/linux_lab/Project/ftp_client/ftp.h
 
 1324886373 source:/home/silver/Documents/courses/linux_lab/Project/ftp_client/ftp_connect_socket.c
 	"client.h"
 
-1324907514 source:/home/silver/Documents/courses/linux_lab/Project/ftp_client/myftp.c
+1324996824 source:/home/silver/Documents/courses/linux_lab/Project/ftp_client/myftp.c
 	"client.h"
 
 1324900120 source:/home/silver/Documents/courses/linux_lab/Project/ftp_client/pasv_cmd.c
 	"client.h"
 
-1324907122 source:/home/silver/Documents/courses/linux_lab/Project/ftp_client/recv_file.c
+1324999671 source:/home/silver/Documents/courses/linux_lab/Project/ftp_client/recv_file.c
 	"server.h"
 
-1324908852 /home/silver/Documents/courses/linux_lab/Project/ftp_client/server.h
+1325001172 /home/silver/Documents/courses/linux_lab/Project/ftp_client/server.h
 	<sys/stat.h>
 	<sys/socket.h>
 	<netinet/in.h>
@@ -233,6 +233,9 @@
 	<pthread.h>
 	"ftp.h"
 
-1324907115 source:/home/silver/Documents/courses/linux_lab/Project/ftp_client/send_file.c
+1324999671 source:/home/silver/Documents/courses/linux_lab/Project/ftp_client/send_file.c
+	"server.h"
+
+1324994745 source:/home/silver/Documents/courses/linux_lab/Project/ftp_client/check_file.c
 	"server.h"
 

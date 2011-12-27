@@ -32,6 +32,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="check_file.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="check_login.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="cmd/" />
@@ -43,6 +46,9 @@
 		<Unit filename="do_get.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="cmd/" />
+		</Unit>
+		<Unit filename="do_login.c">
+			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="do_ls.c">
 			<Option compilerVar="CC" />

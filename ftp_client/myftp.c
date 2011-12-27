@@ -42,20 +42,21 @@ int main(int argc, char* argv[])
     result_hdr = (struct cmd_result_header*)recv_buf;
 
 
+    memset(send_buf, 0, BUF_SIZE);
     /** send login info **/
     cmd_hdr->cmd_type = LOGIN;
     cmd_hdr->cmd_argc = 2;
 
     cmd_argv = cmd_hdr->cmd_argv;
     strcpy(cmd_argv, username);
+
     cmd_argv += strlen(cmd_argv) + 1;
     strcpy(cmd_argv, password);
 
-    memset(send_buf, 0, sizeof(send_buf));
-    send(server_sockfd, send_buf, sizeof(send_buf), 0);
+    send(server_sockfd, send_buf, BUF_SIZE, 0);
 
-    memset(recv_buf, 0, sizeof(recv_buf));
-    recv(server_sockfd, recv_buf, sizeof(recv_buf), 0);
+    memset(recv_buf, 0, BUF_SIZE);
+    recv(server_sockfd, recv_buf, BUF_SIZE, 0);
 
     printf("%s", result_hdr->ret_result);
     if (result_hdr->ret_status == FAIL)
@@ -69,12 +70,9 @@ int main(int argc, char* argv[])
     int file_sockfd;
     char file_buf[BUF_SIZE];
 
-//    struct file_header* file_hdr;
-//    file_hdr = (struct file_header*)file_buf;
-
     /** send PASV cmd **/
-    memset(send_buf, 0, sizeof(send_buf));
-    memset(recv_buf, 0, sizeof(recv_buf));
+    memset(send_buf, 0, BUF_SIZE);
+    memset(recv_buf, 0, BUF_SIZE);
     file_sockfd = pasv_cmd(recv_buf, send_buf, server_sockfd, ftp_server_ip);
     if (file_sockfd < 0)
     {
@@ -82,27 +80,29 @@ int main(int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
 
+    int ret;
+//    char* filename;
+
     while (1)
     {
-//        printf("%s@myftp> ",username);
         printf("myftp> ");
 
         memset(str_buf, 0, sizeof(str_buf));
         fgets(str_buf, BUF_SIZE , stdin);
 
-        memset(send_buf, 0, sizeof(send_buf));
+        memset(send_buf, 0, BUF_SIZE);
         cmd_analysize(str_buf, send_buf);
 
         if (cmd_hdr->cmd_type == NOT_SUPPORTED)
-            printf("Command not found\n");
+            printf("command not found\n");
         else if (cmd_hdr->cmd_type == DUMMY)
             continue;
         else if (cmd_hdr->cmd_type == QUIT)
         {
-            send(server_sockfd, send_buf, sizeof(send_buf), 0);
+            send(server_sockfd, send_buf, BUF_SIZE, 0);
 
-            memset(recv_buf, 0, sizeof(recv_buf));
-            recv(server_sockfd, recv_buf, sizeof(recv_buf), 0);
+            memset(recv_buf, 0, BUF_SIZE);
+            recv(server_sockfd, recv_buf, BUF_SIZE, 0);
             printf("%s", result_hdr->ret_result);
 
             close(server_sockfd);
@@ -111,43 +111,57 @@ int main(int argc, char* argv[])
         }
         else if (cmd_hdr->cmd_type == GET)
         {
-            printf("send get cmd\n");
-            send(server_sockfd, send_buf, sizeof(send_buf), 0);
-            memset(recv_buf, 0, sizeof(recv_buf));
-            recv(server_sockfd, recv_buf, sizeof(recv_buf), 0);
+            printf("** send get cmd\n");
+            send(server_sockfd, send_buf, BUF_SIZE, 0);
+
+            memset(recv_buf, 0, BUF_SIZE);
+            recv(server_sockfd, recv_buf, BUF_SIZE, 0);
+
             printf("%s", result_hdr->ret_result);
 
             if (result_hdr->ret_status == SUCCESS)
             {
-                printf("open file for write\n");
-                printf("filename: %s\n", cmd_hdr->cmd_argv);
+                memset(recv_buf, 0, BUF_SIZE);
+                ret = check_file_for_recv(cmd_hdr->cmd_argv, recv_buf);
 
-                recv_file(cmd_hdr->cmd_argv, file_sockfd, file_buf);
+                if (ret == 0)
+                    cmd_hdr->cmd_type = READY;
+                else
+                    cmd_hdr->cmd_type = NOT_READY;
+                send(server_sockfd, send_buf, BUF_SIZE, 0);
+
+                if (ret == 0)
+                    recv_file(cmd_hdr->cmd_argv, file_sockfd, file_buf);
             }
         }
         else if (cmd_hdr->cmd_type == PUT)
         {
-            printf("send put cmd\n");
-            send(server_sockfd, send_buf, sizeof(send_buf), 0);
-            memset(recv_buf, 0, sizeof(recv_buf));
-            recv(server_sockfd, recv_buf, sizeof(recv_buf), 0);
+            printf("** send put cmd\n");
 
-            printf("%s", result_hdr->ret_result);
+            memset(recv_buf, 0, BUF_SIZE);
+            ret = check_file_for_send(cmd_hdr->cmd_argv, recv_buf);
 
-            if (result_hdr->ret_status == SUCCESS)
+            if (ret == 0)
             {
-                printf("open file for read\n");
-                printf("filename: %s\n", cmd_hdr->cmd_argv);
+                send(server_sockfd, send_buf, BUF_SIZE, 0);
 
-                send_file(cmd_hdr->cmd_argv, file_sockfd, file_buf);
+                memset(recv_buf, 0, BUF_SIZE);
+                recv(server_sockfd, recv_buf, BUF_SIZE, 0);
+
+                printf("%s", result_hdr->ret_result);
+
+                if (result_hdr->ret_status == SUCCESS)
+                {
+                    send_file(cmd_hdr->cmd_argv, file_sockfd, file_buf);
+                }
             }
         }
         else
         {
-            send(server_sockfd, send_buf, sizeof(send_buf), 0);
+            send(server_sockfd, send_buf, BUF_SIZE, 0);
 
-            memset(recv_buf, 0, sizeof(recv_buf));
-            recv(server_sockfd, recv_buf, sizeof(recv_buf), 0);
+            memset(recv_buf, 0, BUF_SIZE);
+            recv(server_sockfd, recv_buf, BUF_SIZE, 0);
             printf("%s", result_hdr->ret_result);
         }
 

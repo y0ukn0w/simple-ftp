@@ -1,32 +1,34 @@
 #include "client.h"
 
-void cmd_analysize(char str_buf[], char cmd_buf[])
+void cmd_analysize(char input_buf[], char send_buf[])
 {
     int i, j;
     char cmd[TMP_BUF_SIZE];
     char* argv;
 
-    struct cmd_type_header* cmd_hdr = (struct cmd_type_header*)cmd_buf;
+    struct cmd_type_header* cmd_hdr = (struct cmd_type_header*)send_buf;
     cmd_hdr->cmd_argc = 0;
 
     /** remove the tail newline character **/
-    str_buf[strlen(str_buf)-1] = '\0';
+    input_buf[strlen(input_buf)-1] = '\0';
 
     memset(cmd, 0, sizeof(cmd));
-    for (i = 0; str_buf[i] != '\0' && (str_buf[i] == ' ' || str_buf[i] == '\t'); i++);
+    for (i = 0; input_buf[i] != '\0' && (input_buf[i] == ' ' || input_buf[i] == '\t'); i++);
 
-    for (j = 0; str_buf[i] != '\0' && str_buf[i] != ' ' && str_buf[i] != '\t';)
-        cmd[j++] = str_buf[i++];
+    /** get command string **/
+    for (j = 0; input_buf[i] != '\0' && input_buf[i] != ' ' && input_buf[i] != '\t';)
+        cmd[j++] = input_buf[i++];
 
+    /** get command argument list **/
     argv = cmd_hdr->cmd_argv;
     while (1)
     {
-        for (; str_buf[i] != '\0' && (str_buf[i] == ' ' || str_buf[i] == '\t'); i++);
-        if (str_buf[i] == '\0')
+        for (; input_buf[i] != '\0' && (input_buf[i] == ' ' || input_buf[i] == '\t'); i++);
+        if (input_buf[i] == '\0')
             break;
 
-        for (j = 0; str_buf[i] != '\0' && str_buf[i] != ' ' && str_buf[i] != '\t';)
-            argv[j++] = str_buf[i++];
+        for (j = 0; input_buf[i] != '\0' && input_buf[i] != ' ' && input_buf[i] != '\t';)
+            argv[j++] = input_buf[i++];
         cmd_hdr->cmd_argc++;
         argv += strlen(argv) + 1;
     }
@@ -72,7 +74,11 @@ void cmd_analysize(char str_buf[], char cmd_buf[])
     {
          cmd_hdr->cmd_type = MGET;
     }
-    else if (strcmp(cmd, "q") == 0)
+    else if ((strcmp(cmd, "help") == 0) || (strcmp(cmd, "?") == 0))
+    {
+        cmd_hdr->cmd_type = HELP;
+    }
+    else if ((strcmp(cmd, "q") == 0) || (strcmp(cmd, "bye") == 0) || (strcmp(cmd, "exit") == 0))
     {
         cmd_hdr->cmd_type = QUIT;
     }
